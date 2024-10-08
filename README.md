@@ -12,8 +12,9 @@ python -m venv .venv
 ### 必要ライブラリのインストール
 
 ```bash
-pip install torch torchvision torchaudio
-pip install mujoco
+python.exe -m pip install --upgrade pip
+pip install -r src/requirements.txt
+pip install torch==2.3.1+cu121 -f https://download.pytorch.org/whl/torch_stable.html
 ```
 
 ### Git の使い方メモ
