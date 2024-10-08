@@ -169,7 +169,7 @@ def main(args):
             agent.save_checkpoint(ckpt_dir=f"{train_log_dir}/Networks", file_name=f"best.pt" )
             max_episode_rewards = episode_reward
             best_episode = i_episode
-        if total_numsteps >= cfg.start_steps and i_episode%100 == 0:
+        if total_numsteps >= cfg.start_steps and i_episode%10 == 0:
             agent.save_checkpoint(ckpt_dir=f"{train_log_dir}/Networks", file_name=f"episode_{i_episode}.pt" )
             
 

@@ -45,10 +45,9 @@ class WindowX250Env():
 
         joint_q = np.array([self.data.sensor(j_name + "_pos").data[0] for j_name in j_names])
         joint_dq = np.array([self.data.sensor(j_name + "_vel").data[0] for j_name in j_names])
-        
-        sensor_data = np.concatenate([joint_q, joint_dq])
+        joint_frc = np.array([self.data.sensor(j_name + "_frc").data[0] for j_name in j_names])
 
-        return sensor_data
+        return joint_q, joint_dq, joint_frc
             
     def control(self,action):
         for i in range(self.cfg.step_dt_per_mujoco_dt): 
@@ -71,8 +70,6 @@ class WindowX250Env():
             else:
                 self.viewer.close()
                 self.viewer = mujoco.viewer.launch_passive(self.model, self.data)
-        
-        return self.sensor_data()
     
     
     
@@ -91,7 +88,7 @@ class ReachingTask(WindowX250Env):
         self.observation_dim = 20
         
     def reset(self):
-        sensor_data = super().reset()
+        super().reset()
         self.next_target_time = self.change_target_interval
         self.target_pos = np.array([random.uniform(self.cfg.target_pos_min[0], self.cfg.target_pos_max[0]), random.uniform(self.cfg.target_pos_min[1], self.cfg.target_pos_max[1]), random.uniform(self.cfg.target_pos_min[2], self.cfg.target_pos_max[2])])
         self.model.body("target_body").pos[:] = self.target_pos
@@ -130,12 +127,18 @@ class ReachingTask(WindowX250Env):
             return np.exp(-4*(np.abs(x))**2)
         end_effector_pos = self.data.site("end_effector").xpos
         target_pos = self.target_pos
-        return f(end_effector_pos[0] - target_pos[0]) + f(end_effector_pos[1] - target_pos[1]) + f(end_effector_pos[2] - target_pos[2])
+        
+        rew_pos = f(end_effector_pos[0] - target_pos[0]) + f(end_effector_pos[1] - target_pos[1]) + f(end_effector_pos[2] - target_pos[2])
+        
+        joint_q, joint_dq, joint_frc = self.sensor_data()
+        rew_frc = np.sum(np.abs(joint_frc))
+        
+        return self.cfg.reward_pos * rew_pos + self.cfg.reward_frc * rew_frc
 
     def observation(self):
-        sensor_data = self.sensor_data()
+        joint_q, joint_dq, joint_frc = self.sensor_data()
         target_pos = self.target_pos
-        observation = np.concatenate([sensor_data, target_pos, self.data.site("end_effector").xpos])
+        observation = np.concatenate([joint_q, joint_dq, target_pos, self.data.site("end_effector").xpos])
         return observation
     
 

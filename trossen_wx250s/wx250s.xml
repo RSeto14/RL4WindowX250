@@ -149,6 +149,14 @@
     <jointvel name="wrist_angle_vel" joint="wrist_angle"/>
     <jointvel name="wrist_rotate_vel" joint="wrist_rotate"/>
     <jointvel name="gripper_vel" joint="left_finger"/>
+
+    <jointactuatorfrc name="waist_frc" joint="waist"/>
+    <jointactuatorfrc name="shoulder_frc" joint="shoulder"/>
+    <jointactuatorfrc name="elbow_frc" joint="elbow"/>
+    <jointactuatorfrc name="forearm_roll_frc" joint="forearm_roll"/>
+    <jointactuatorfrc name="wrist_angle_frc" joint="wrist_angle"/>
+    <jointactuatorfrc name="wrist_rotate_frc" joint="wrist_rotate"/>
+    <jointactuatorfrc name="gripper_frc" joint="left_finger"/>
     
   </sensor>
 

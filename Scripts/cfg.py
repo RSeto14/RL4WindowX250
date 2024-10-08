@@ -23,12 +23,11 @@ class Config:
     hidden_size: List[int] = field(default_factory=lambda: [512, 256, 128]) # 512, 256, 128
     updates_interval: int = 1
     updates_per_step: int = 1
-    log_interval: int = 10 # episode
+    log_interval: int = 1000 # episode
     # start_steps: int = 100000
     start_steps: int = 50000
     target_update_interval: int = 1
     replay_size: int = 100000
-    capture_interval: int = 500
     
     # Env
     step_dt_per_mujoco_dt: int = 10
@@ -41,3 +40,8 @@ class Config:
     target_pos_max: List[float] = field(default_factory=lambda: [0.0, -0.3, 0.2])
     action_space_min: List[float] = field(default_factory=lambda: [-1, -1, -1, -1, -1, -1])
     action_space_max: List[float] = field(default_factory=lambda: [1, 1, 1, 1, 1, 1, ])
+
+    # Reward
+    reward_pos: float = 1.0
+    reward_frc: float = -0.01
+
