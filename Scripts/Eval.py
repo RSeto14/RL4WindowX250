@@ -34,7 +34,7 @@ script_name = os.path.basename(__file__)[: -len(".py")]
 def Parse_args():
     parser = argparse.ArgumentParser(description='SAC eval')
    
-    parser.add_argument("--train_log", type=str, default=r"C:\Users\hayas\RL4WindowX250\Log\241008_192134",help="train log dir name")
+    parser.add_argument("--train_log", type=str, default=r"C:\Users\hayas\RL4WindowX250\Log\241008_201007",help="train log dir name")
     
     
     parser.add_argument("--gpu", type=int, default=0, help="run on CUDA")
@@ -45,7 +45,7 @@ def Parse_args():
     
     parser.add_argument("--net", type=int, default=0,help="Networks(episode) or 0 (best.pt)")
     
-    parser.add_argument("--n_ep", type=int, default=2, help="num episodes")
+    parser.add_argument("--n_ep", type=int, default=1, help="num episodes")
 
     
     parser.add_argument("--alog", type=bool, default=True,help="action log")
