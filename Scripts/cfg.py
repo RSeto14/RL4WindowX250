@@ -36,7 +36,7 @@ class Config:
     
     # ReachingTask
     max_steps: int = 3000
-    target_change_interval: int = 5
+    target_change_interval: int = 2
     target_pos_min: List[float] = field(default_factory=lambda: [0.5, 0.3, 0.5])
     target_pos_max: List[float] = field(default_factory=lambda: [0.0, -0.3, 0.2])
     action_space_min: List[float] = field(default_factory=lambda: [-1, -1, -1, -1, -1, -1])
