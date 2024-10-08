@@ -116,10 +116,6 @@ def main(args):
     for i_episode in itertools.count(1):
         episode_reward = 0
         episode_steps = 0
-        episode_mileage = np.array([0.0,0.0,0.0])
-        episode_angle = np.array([0.0,0.0,0.0])
-        episode_work = 0
-        episode_reward_list = np.array([0.0,0.0,0.0,0.0,0.0,0.0,0.0])
         done = False
         
         
