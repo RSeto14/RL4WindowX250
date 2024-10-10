@@ -14,6 +14,15 @@ python -m venv .venv
 ```bash
 python.exe -m pip install --upgrade pip
 pip install -r src/requirements.txt
+```
+
+### CUDAを使う場合
+
+CUDAのバージョンに合わせてインストール
+
+[PyTorch](https://pytorch.org/)
+
+```bash
 pip install torch==2.3.1+cu121 -f https://download.pytorch.org/whl/torch_stable.html
 ```
 

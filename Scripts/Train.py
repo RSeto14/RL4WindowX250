@@ -33,7 +33,7 @@ from Save_Load_cfg import dataclass_to_json
 def Parse_args():
     parser = argparse.ArgumentParser(description='SAC train')
     
-    parser.add_argument("--gpu", type=int, default=0, help="run on CUDA (default: 0)")
+    parser.add_argument("--gpu", type=int, default=-1, help="run on CUDA (default: 0) cpu: -1")
     parser.add_argument("--seed", type=int, default=1234567, help="seed")
 
 
@@ -93,10 +93,11 @@ def main(args):
     random.seed(seed)
 
     # Device
-    visible_device = cfg.gpu
-    os.environ["CUDA_VISIBLE_DEVICES"] = str(visible_device)
-    print("CUDA_VISIBLE_DEVICES:", os.environ.get("CUDA_VISIBLE_DEVICES", "Not set"))
-    cfg.gpu = 0
+    if cfg.gpu >=0:
+        visible_device = cfg.gpu
+        os.environ["CUDA_VISIBLE_DEVICES"] = str(visible_device)
+        print("CUDA_VISIBLE_DEVICES:", os.environ.get("CUDA_VISIBLE_DEVICES", "Not set"))
+        cfg.gpu = 0
     
     # Environment
     env = ReachingTask(cfg=cfg)

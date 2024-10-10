@@ -9,7 +9,11 @@ class ReplayMemory:
         random.seed(seed)
         self.capacity = capacity
         self.position = 0
-        self.device = torch.device(f"cuda:{gpu}")
+        
+        if gpu >= 0:
+            self.device = torch.device(f"cuda:{gpu}")
+        else:
+            self.device = torch.device("cpu")
         
         self.memory_size = 0
 
@@ -74,3 +78,4 @@ class ReplayMemory:
             self.next_states = buffer_data['next_states'].to(self.device)
             self.dones = buffer_data['dones'].to(self.device)
             self.position = buffer_data['position']
+            

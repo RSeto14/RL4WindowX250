@@ -37,7 +37,7 @@ def Parse_args():
     parser.add_argument("--train_log", type=str, default=r"C:\Users\hayas\RL4WindowX250\Log\241008_201007",help="train log dir name")
     
     
-    parser.add_argument("--gpu", type=int, default=0, help="run on CUDA")
+    parser.add_argument("--gpu", type=int, default=-1, help="run on CUDA -1:CPU")
     parser.add_argument("--seed", type=int, default=123456, help="seed")
     
 
@@ -50,7 +50,6 @@ def Parse_args():
     
     parser.add_argument("--alog", type=bool, default=True,help="action log")
     parser.add_argument("--olog", type=bool, default=True,help="observation log")
-    parser.add_argument("--com", type=str, default="obs_min",help="comment")
     
     args = parser.parse_args()
     
@@ -89,7 +88,6 @@ def main(args):
         start = start_datetime.strftime("%y/%m/%d %H:%M:%S")
         #PID
         pid = os.getpid()
-        file.write(f'Comment: {args.com}\n')
         file.write(f'Process ID: {pid}\n')
         file.write(f'Start: {start}\n')
     
@@ -121,10 +119,11 @@ def main(args):
     random.seed(seed)
 
     # Device
-    visible_device = cfg.gpu
-    os.environ["CUDA_VISIBLE_DEVICES"] = str(visible_device)
-    print("CUDA_VISIBLE_DEVICES:", os.environ.get("CUDA_VISIBLE_DEVICES", "Not set"))
-    cfg.gpu = 0
+    if cfg.gpu >= 0:
+        visible_device = cfg.gpu
+        os.environ["CUDA_VISIBLE_DEVICES"] = str(visible_device)
+        print("CUDA_VISIBLE_DEVICES:", os.environ.get("CUDA_VISIBLE_DEVICES", "Not set"))
+        cfg.gpu = 0
     
     # Environment
     env = ReachingTask(headless=False,cfg=cfg)

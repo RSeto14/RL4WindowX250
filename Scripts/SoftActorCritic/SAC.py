@@ -24,9 +24,12 @@ class SAC(object):
         self.batch_size = cfg.batch_size
 
         gpu = cfg.gpu
-        
-        if torch.cuda.is_available():
-            self.device = torch.device(f"cuda:{gpu}")
+        if gpu >= 0:
+            if torch.cuda.is_available():
+                self.device = torch.device(f"cuda:{gpu}")
+            else:
+                print("CUDA is not available. Using CPU instead.")
+                self.device = torch.device("cpu")
         else:
             self.device = torch.device("cpu")
 
@@ -165,7 +168,14 @@ class SAC_Eval(object):
     def __init__(self, num_inputs, action_dim, cfg):
         
         gpu = cfg.gpu
-        self.device = torch.device(f"cuda:{gpu}")
+        if gpu >= 0:
+            if torch.cuda.is_available():
+                self.device = torch.device(f"cuda:{gpu}")
+            else:
+                print("CUDA is not available. Using CPU instead.")
+                self.device = torch.device("cpu")
+        else:
+            self.device = torch.device("cpu")
         self.policy_type = cfg.policy
         if self.policy_type == "Gaussian":
             # Target Entropy = −dim(A) (e.g. , -6 for HalfCheetah-v2) as given in the paper
