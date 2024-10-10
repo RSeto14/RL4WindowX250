@@ -180,15 +180,20 @@ class ReachingTask(WindowX250Env):
     def reward(self):
         def f(x):
             return np.exp(-4*(np.abs(x))**2)
+        
         end_effector_pos = self.data.site("end_effector").xpos
         target_pos = self.target_pos
         
-        rew_pos = f(end_effector_pos[0] - target_pos[0]) + f(end_effector_pos[1] - target_pos[1]) + f(end_effector_pos[2] - target_pos[2])
+        # rew_pos = f(end_effector_pos[0] - target_pos[0]) + f(end_effector_pos[1] - target_pos[1]) + f(end_effector_pos[2] - target_pos[2])
+        
+        rew_pos = np.linalg.norm(end_effector_pos - target_pos)
         
         joint_q, joint_dq, joint_frc = self.sensor_data()
+        
+        rew_vel = np.sum(np.abs(joint_dq))
         rew_frc = np.sum(np.abs(joint_frc))
         
-        return self.cfg.reward_pos * rew_pos + self.cfg.reward_frc * rew_frc
+        return self.cfg.reward_pos * rew_pos + self.cfg.reward_vel * rew_vel + self.cfg.reward_frc * rew_frc
 
     def observation(self):
         joint_q, joint_dq, joint_frc = self.sensor_data()

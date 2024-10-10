@@ -42,12 +42,13 @@ class Config:
     action_space_max: List[float] = field(default_factory=lambda: [1, 1, 1, 1, 1, 1, ])
 
     # Reward
-    reward_pos: float = 1.0
+    reward_pos: float = -1.0
+    reward_vel: float = -0.01
     reward_frc: float = -0.001
 
     # Video
-    video_height: int = 480
-    video_width: int = 640
+    video_height: int = 1080
+    video_width: int = 1920
     video_fps: int = 25
 
 
