@@ -8,7 +8,7 @@ from typing import List
 # dataclassの定義
 @dataclass
 class Config:
-    gpu: int = 2
+    gpu: int = -1
     seed: int = 123456
     
     # SAC
@@ -43,7 +43,7 @@ class Config:
 
     # Reward
     reward_pos: float = 1.0
-    reward_frc: float = -0.01
+    reward_frc: float = -0.001
 
     # Video
     video_height: int = 480
