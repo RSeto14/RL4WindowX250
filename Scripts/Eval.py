@@ -2,7 +2,6 @@
 import argparse
 
 import os
-import pickle
 import datetime
 import pytz
 import sys
@@ -23,7 +22,6 @@ sys.path.append(parent_dir2)
 
 
 from SoftActorCritic.SAC import SAC_Eval
-from SoftActorCritic.ReplayMemory import ReplayMemory
 from Env import ReachingTask
 from cfg import Config
 from Save_Load_cfg import dataclass_to_json, json_to_dataclass
@@ -34,18 +32,18 @@ script_name = os.path.basename(__file__)[: -len(".py")]
 def Parse_args():
     parser = argparse.ArgumentParser(description='SAC eval')
    
-    parser.add_argument("--train_log", type=str, default=r"C:\Users\hayas\RL4WindowX250\Log\241008_201007",help="train log dir name")
+    parser.add_argument("--train_log", type=str, default=r"C:\Users\hayas\RL4WindowX250\Log\241010_125356",help="train log dir name")
     
     
     parser.add_argument("--gpu", type=int, default=-1, help="run on CUDA -1:CPU")
     parser.add_argument("--seed", type=int, default=123456, help="seed")
     
-
+    parser.add_argument("--headless", type=bool, default=True, help="headless")
     parser.add_argument("--cap", type=bool, default=True,help="capture video")
     
     parser.add_argument("--net", type=int, default=0,help="Networks(episode) or 0 (best.pt)")
     
-    parser.add_argument("--n_ep", type=int, default=1, help="num episodes")
+    parser.add_argument("--n_ep", type=int, default=2, help="num episodes")
 
     
     parser.add_argument("--alog", type=bool, default=True,help="action log")
@@ -126,7 +124,7 @@ def main(args):
         cfg.gpu = 0
     
     # Environment
-    env = ReachingTask(headless=False,cfg=cfg)
+    env = ReachingTask(headless=args.headless,cfg=cfg,capture=args.cap)
 
     # Agent
     agent = SAC_Eval(env.observation_dim, env.action_dim, cfg)
@@ -138,7 +136,7 @@ def main(args):
         episode_reward = 0
         episode_steps = 0
         done = False
-        state = env.reset()
+        state = env.reset(video_folder=f"{test_log_dir}/Videos")
 
 
         
@@ -184,6 +182,7 @@ def main(args):
             writer.writerows([[i_episode, episode_steps, round(episode_reward, 4), round(episode_reward/episode_steps, 4),datetime.datetime.now(timezone)-start_datetime]])
         
         if i_episode >= args.n_ep:
+            env.reset(video_folder=f"{test_log_dir}/Videos")
             break
     
     with open(f"{test_log_dir}/log.txt", 'a') as file:

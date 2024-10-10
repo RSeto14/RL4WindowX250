@@ -45,3 +45,9 @@ class Config:
     reward_pos: float = 1.0
     reward_frc: float = -0.01
 
+    # Video
+    video_height: int = 480
+    video_width: int = 640
+    video_fps: int = 25
+
+

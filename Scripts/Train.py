@@ -2,7 +2,6 @@
 import argparse
 
 import os
-import pickle
 import datetime
 import pytz
 import sys
@@ -35,6 +34,7 @@ def Parse_args():
     
     parser.add_argument("--gpu", type=int, default=-1, help="run on CUDA (default: 0) cpu: -1")
     parser.add_argument("--seed", type=int, default=1234567, help="seed")
+    parser.add_argument("--headless", type=bool, default=True, help="headless")
 
 
     args = parser.parse_args()
@@ -100,7 +100,7 @@ def main(args):
         cfg.gpu = 0
     
     # Environment
-    env = ReachingTask(cfg=cfg)
+    env = ReachingTask(cfg=cfg,headless=args.headless)
 
     # Agent
     agent = SAC(env.observation_dim, env.action_dim, cfg)
