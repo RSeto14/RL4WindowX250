@@ -115,10 +115,49 @@ def Parse_args():
 
 実行例
 コマンド引数を入れないとデフォルト値が採用される
+
 ```
 python Train.py --gpu -1 --seed 123456 --headless True
 ```
 
+## 評価
+
+[Eval.py](./Scripts/Eval.py)
+
+設定
+```python
+
+def Parse_args():
+    parser = argparse.ArgumentParser(description='SAC eval')
+   
+    parser.add_argument("--train_log", type=str, default=r"C:\Users\hayas\RL4WindowX250\Log\241010_125356",help="train log dir name")
+    
+    
+    parser.add_argument("--gpu", type=int, default=-1, help="run on CUDA -1:CPU")
+    parser.add_argument("--seed", type=int, default=123456, help="seed")
+    
+    parser.add_argument("--headless", type=bool, default=True, help="headless")
+    parser.add_argument("--cap", type=bool, default=True,help="capture video")
+    
+    parser.add_argument("--net", type=int, default=0,help="Networks(episode) or 0 (best.pt)")
+    
+    parser.add_argument("--n_ep", type=int, default=2, help="num episodes")
+
+    
+    parser.add_argument("--alog", type=bool, default=True,help="action log")
+    parser.add_argument("--olog", type=bool, default=True,help="observation log")
+    
+    args = parser.parse_args()
+    
+    return args
+
+```
+
+実行例
+
+```
+python Eval.py --train_log C:\Users\hayas\RL4WindowX250\Log\241010_125356 --gpu -1 --seed 123456 --headless True --cap True --net 0 --n_ep 2 --alog True --olog True
+```
 
 ### Git の使い方メモ
 
