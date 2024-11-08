@@ -36,10 +36,10 @@ def Parse_args():
     
     
     parser.add_argument("--gpu", type=int, default=-1, help="run on CUDA -1:CPU")
-    parser.add_argument("--seed", type=int, default=123456, help="seed")
+    parser.add_argument("--seed", type=int, default=12345, help="seed")
     
-    parser.add_argument("--headless", type=bool, default=False, help="headless")
-    parser.add_argument("--cap", type=bool, default=False,help="capture video")
+    parser.add_argument("--headless", type=bool, default=True   , help="headless")
+    parser.add_argument("--cap", type=bool, default=True,help="capture video")
     
     parser.add_argument("--net", type=int, default=0,help="Networks(episode) or 0 (best.pt)")
     

@@ -178,13 +178,10 @@ class ReachingTask(WindowX250Env):
         return observation, reward, termination, truncation, info
     
     def reward(self):
-        def f(x):
-            return np.exp(-4*(np.abs(x))**2)
         
         end_effector_pos = self.data.site("end_effector").xpos
         target_pos = self.target_pos
-        
-        # rew_pos = f(end_effector_pos[0] - target_pos[0]) + f(end_effector_pos[1] - target_pos[1]) + f(end_effector_pos[2] - target_pos[2])
+
         
         rew_pos = np.linalg.norm(end_effector_pos - target_pos)
         
